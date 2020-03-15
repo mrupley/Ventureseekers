@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="full-screen" content="yes"/>
+  <meta name="screen-orientation" content="landscape"/>
+
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <title>Ventureseekers</title>
+</head>
+  <script src="pixi/pixi.min.js"></script>
+<body>
+<script src="src/constants.js"></script>
+<script src="src/game.js"></script>
+<script src="src/gamecontroller.js"></script>
+<script src="src/helperFunctions.js"></script>
+<script src="src/images.js"></script>
+<script src="src/main.js"></script>
+<div id="main">
+  <script type="text/javascript">
+      let type = "WebGL";
+    if(!PIXI.utils.isWebGLSupported()){
+      type = "canvas";
+    }
+    // To enable or disable the PIXI console greeting
+    //PIXI.utils.skipHello();
+    //PIXI.utils.sayHello(type);
+
+    //Create a Pixi Application
+    let app = new PIXI.Application({
+           width: window.innerWidth,   // default: 800
+           height: window.innerHeight, // default: 600
+           antialias: false,           // default: false
+           transparent: false,         // default: false
+           resolution: 1               // default: 1
+    });
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
+    var gameContainer = new PIXI.DisplayObjectContainer();
+
+    loadDefaultGame();
+
+    //Add the canvas that Pixi automatically created for you to the HTML document
+    document.body.appendChild(renderer.view);
+  </script>
+</div>
+</body>
+</html>
