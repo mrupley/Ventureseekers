@@ -1,11 +1,11 @@
 // enums
-var states = {
+const states = {
 	NONE : 0,
 	GAME : 1,
 	MENU : 2,
 }
 
-var venturerImages = {
+const venturer = {
 	WARRIOR : 0,
 	MAGE    : 1,
 	ROGUE   : 2,

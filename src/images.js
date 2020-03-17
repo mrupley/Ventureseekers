@@ -14,11 +14,11 @@ function Images() {
 
 	this.getImage = function(c) {
 		switch(c) {
-			case venturerImages.WARRIOR:
+			case venturer.WARRIOR:
 				return warrior;
-			case venturerImages.MAGE:
+			case venturer.MAGE:
 				return mage;
-			case venturerImages.ROGUE:
+			case venturer.ROGUE:
 				return rogue;
 		}
 	};

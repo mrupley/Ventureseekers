@@ -13,11 +13,13 @@
   <script src="pixi/pixi.min.js"></script>
 <body>
 <script src="src/constants.js"></script>
-<script src="src/game.js"></script>
+<script src="src/character.js"></script>
 <script src="src/gamecontroller.js"></script>
+<script src="src/gamemodel.js"></script>
+<script src="src/gameview.js"></script>
 <script src="src/helperFunctions.js"></script>
 <script src="src/images.js"></script>
-<script src="src/main.js"></script>
+<script src="src/storage.js"></script>
 <div id="main">
   <script type="text/javascript">
       let type = "WebGL";
@@ -43,6 +45,7 @@
 
     //Add the canvas that Pixi automatically created for you to the HTML document
     document.body.appendChild(renderer.view);
+    window.onbeforeunload = saveData;
   </script>
 </div>
 </body>

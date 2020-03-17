@@ -10,7 +10,6 @@ function loadDefaultGame() {
 	loader.add(assets);
 
 	setup();
-
 	// create a text object that will be updated...
 	var loadingText = new PIXI.Text('Loading: 0%', { font: 'bold italic 60px Arvo', fill: '#3e1707', align: 'center', stroke: '#a4410e', strokeThickness: 7 });
 
@@ -36,6 +35,7 @@ function loadDefaultGame() {
 	// start loading
 	loader.load();
 }
+
 let windowWidth;
 let windowHeight;
 function setup() {
@@ -56,14 +56,19 @@ function startGame(width, height) {
 	var bg = new PIXI.Sprite(PIXI.loader.resources["img/bg.png"].texture);
 	bg.scale.x = windowWidth;
 	bg.scale.y = windowHeight;
-	//this part resizes the canvas but keeps ratio the same
+	//this part resizes the canvas
 	renderer.view.style.width = windowWidth + "px";
 	renderer.view.style.height = windowHeight + "px";
 	renderer.resize(windowWidth,windowHeight);
 
 	app.stage.addChild(bg);
 	app.stage.addChild(gameContainer);
-	Game.init();
+	GameController.init();
 	renderer.render(app.stage);
-	app.ticker.add(delta => Game.loop(delta));
+	app.ticker.add(delta => GameController.loop(delta));
 };
+
+function saveData()
+{
+	GameController.saveData();
+}
