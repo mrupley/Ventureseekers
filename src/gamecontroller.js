@@ -23,9 +23,9 @@ var GameController = (function() {
 	}
 
 	instance.update = function() {
-		GameModel.addCash(tick);
+		GameModel.addCash();
 		tick = 0;
-		GameModel.saveData();
+		renderer.render(app.stage);
 	}
 
 	instance.saveData = function() {

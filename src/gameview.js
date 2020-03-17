@@ -49,6 +49,7 @@ function setup() {
 }
 
 let images;
+let cashText;
 //This `setup` function will run when the images have loaded
 function startGame(width, height) {
 	images = new Images();
@@ -60,8 +61,12 @@ function startGame(width, height) {
 	renderer.view.style.width = windowWidth + "px";
 	renderer.view.style.height = windowHeight + "px";
 	renderer.resize(windowWidth,windowHeight);
+	cashText  = new PIXI.Text('Cash: $', { font: 'bold italic 60px Arvo', fill: '#3e1707', align: 'center', stroke: '#a4410e', strokeThickness: 7 });
+	cashText.position.x = windowWidth / 3;
+	cashText.position.y = 50;	
 
 	app.stage.addChild(bg);
+	app.stage.addChild(cashText);
 	app.stage.addChild(gameContainer);
 	GameController.init();
 	renderer.render(app.stage);

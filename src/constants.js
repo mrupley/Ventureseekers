@@ -12,8 +12,11 @@ const venturer = {
 }
 
 // constants
-const TICKER = 60;
+const TICKER = 6;
 const DEGREES_90 = 1.571; //radians
+
+// characters
+const UPGRADE_MULTIPLIER = 12; // cost and benefit multiplier
 
 // texture cache for the image map
 let TextureCache = PIXI.utils.TextureCache;
