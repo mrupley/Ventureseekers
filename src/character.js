@@ -7,7 +7,7 @@ function character(index, amount = 0, manager = false) {
 	var currentPieceImage;
 	var managerTexture = PIXI.Texture.fromImage("img/managerbutton.png");
 	var managerTextureDisabled = PIXI.Texture.fromImage("img/managerbuttondisabled.png");
-	var managerButton = new PIXI.Sprite(managerTexture);
+	var managerButton = new PIXI.Sprite(hasManager ? managerTextureDisabled : managerTexture);
 	var quantityText = new PIXI.Text(quantity, { font: 'bold italic 20px Arvo', fill: '#3e1707', align: 'center', stroke: '#a4410e', strokeThickness: 7 });
 
 	currentPieceImage = new PIXI.Sprite(images.getImage(id));
