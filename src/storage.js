@@ -1,11 +1,7 @@
 var Storage = (function() {
 	var instance = {};
-	//let itemsArray;
-	//itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
-	//localStorage.setItem('items', JSON.stringify(itemsArray));
-	//const data = JSON.parse(localStorage.getItem('items'));
 
-	//localStorage.clear();
+	//localStorage.clear(); // force game reset
 
 	instance.loadCharacterFromStorage = function(item) {
 		var characterArray = JSON.parse(localStorage.getItem(item));
@@ -20,15 +16,17 @@ var Storage = (function() {
 
 		// no data stored, return default
 		if(Number.isNaN(cash)) {
-			 return 0;
+			 return 12; // player has minimum to buy something to prevent soft lock
 		} 
 		return cash;
 	}
-
+	
+	// time (in ms) since the last session ended
 	instance.loadTimeDifference = function() {
 		return Number(new Date().getTime()) - Number(localStorage.sessionTimer);
 	}
 
+	// save the game state
 	instance.saveData = function(cash, characters) {
 		localStorage.liquidCash = cash;
 		characters.forEach(character => localStorage.setItem( character.id(), JSON.stringify(character.toJSON()) ));

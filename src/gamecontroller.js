@@ -16,6 +16,7 @@ var GameController = (function() {
 	instance.loop = function(delta) {
 		if(state == states.GAME) {
 			tick += delta;
+			// number of frames until you update, only draw on update
 			if(tick > TICKER){
 				this.update();
 			}

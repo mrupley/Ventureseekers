@@ -12,8 +12,8 @@ function character(index, amount = 0, manager = false, savedPercent = 0) {
 	// graphics
 	var managerTexture = PIXI.Texture.fromImage("img/managerbutton.png");
 	var managerTextureDisabled = PIXI.Texture.fromImage("img/managerbuttondisabled.png");
-	var loadingBarTexture = PIXI.Texture.fromImage("img/loading.png");
-	var loadingBarBackgroundTexture = PIXI.Texture.fromImage("img/loadingbg.png");
+	var loadingBarTexture = PIXI.Texture.fromImage("img/loading.png"); // 1x1 pixel to save memory
+	var loadingBarBackgroundTexture = PIXI.Texture.fromImage("img/loadingbg.png"); // 1x1 pixel saves memory
 	var loadingBarBackgroundButton = new PIXI.Sprite(loadingBarBackgroundTexture);
 	var loadingBarButton = new PIXI.Sprite(loadingBarTexture);
 	var managerButton = new PIXI.Sprite(hasManager ? managerTextureDisabled : managerTexture);
@@ -33,10 +33,9 @@ function character(index, amount = 0, manager = false, savedPercent = 0) {
 	gameContainer.addChild(loadingBarBackgroundButton);
 
 	loadingBarButton.position.set(100 + 170, 100 * id + 153);
-	loadingBarBackgroundButton.interactive = true;
+	loadingBarBackgroundButton.interactive = true; //false will block all click events on the bar
 	loadingBarButton.scale.x = percent;
 	loadingBarButton.scale.y = 24;
-	//loadingBarBackgroundButton.on('mousedown', onLoadingClicked);
 	gameContainer.addChild(loadingBarButton);
 
 	managerButton.position.set(100 + 220, 100 * id + 180);
@@ -47,6 +46,7 @@ function character(index, amount = 0, manager = false, savedPercent = 0) {
 	quantityText.position.set(100 + 165, 100 * id + 190);
 	app.stage.addChild(quantityText);
 
+	// getters and setters for a character
 	return {
 		addQuantity: function(amount) {
 			addQuantity(amount);
@@ -80,6 +80,7 @@ function character(index, amount = 0, manager = false, savedPercent = 0) {
 		}
 	};
 
+	// increases the cash between sessions, and restores progress bar to the proper state
 	function getIdleCash(idleTime) {
 		var value = idleTime / timer;
 		if(percent > 0) {
@@ -96,16 +97,24 @@ function character(index, amount = 0, manager = false, savedPercent = 0) {
 		}
 		return 0;
 	}
-	function onIconClicked() {
-		addQuantity(1);
-		quantityText.text = quantity;
-		GameModel.calculateRate();
-	}
 
+	// buy a new character
+	function onIconClicked() {
+		var cost = 1.07 * quantity * ((id+1) * 12);
+		if(GameModel.removeCash(cost)) {
+			addQuantity(1);
+			quantityText.text = quantity;
+			GameModel.calculateRate();
+		}
+	}
+	
+	// purchase the manager
 	function onManagerClicked() {
-		hasManager = true;
-		GameModel.calculateRate();
-		managerButton.texture = managerTextureDisabled;
+		if(!hasManager && GameModel.removeCash((id+1)*48)) {
+			hasManager = true;
+			GameModel.calculateRate();
+			managerButton.texture = managerTextureDisabled;
+		}
 	}
 
 	function addQuantity(amount) {
@@ -113,18 +122,26 @@ function character(index, amount = 0, manager = false, savedPercent = 0) {
 		cashRate = getCashRate(id, quantity);
 	}
 
+	// click on the loading bar to start progress
 	function onLoadingClicked() {
 		if(currentTimer == 0 && quantity > 0) {
+			// start a new progress
 			currentTimer = new Date().getTime() + timer;
 		}
 	}
+
+	// calculates the percentage to fill the bar based on time clicked versus now
 	function calculateTimerPercentage() {
 		if(hasManager) {
+			// call an auto-update on progress if needed
 			onLoadingClicked();
 		}
+		
+		// active progress in session
 		if(currentTimer > 0) {
 			percent = (timer - (currentTimer - new Date().getTime())) / timer;
 		}
+		// the bar is full, reset and update
 		if(percent >= 1){
 			currentTimer = 0;
 			percent = 0;

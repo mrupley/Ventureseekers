@@ -40,6 +40,14 @@ var GameModel = (function () {
 		Storage.saveData(cash, characters);
 	}
 
+	instance.removeCash = function(amount) {
+		if(amount > cash) {
+			return false;
+		}
+		cash -= amount;
+		return true;
+	}
+
 	instance.toString = function() {
 		console.log("cash: " + cash);
 		characters.forEach(character => console.log("id: " + character.id() + " quantity: " + character.quantity() + " manager: " + character.manager() + " percent: " + character.percent()));

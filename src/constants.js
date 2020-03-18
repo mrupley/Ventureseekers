@@ -15,7 +15,7 @@ const venturer = {
 const TICKER = 6;
 const DEGREES_90 = 1.571; //radians
 
-// characters
+// character multipliers
 const UPGRADE_MULTIPLIER = 12; // cost and benefit multiplier
 const TIMER_MULTIPLIER = 3; // 
 
