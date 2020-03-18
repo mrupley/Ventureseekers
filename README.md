@@ -2,9 +2,9 @@
 ## Hire Venturers to loot the dungeon, bringing the profits back to you!
 
 ### Features:
-** Hire warriors, mages, and rogues to do the dirty work for you, bringing back the spoils! **
-** Hire a manager to keep the Venturers fed and well rested so you can take a break! **
-** Work happens around the clock, so expect to see a nice pile of gold waiting for your return! **
+**Hire warriors, mages, and rogues to do the dirty work for you, bringing back the spoils!**
+**Hire a manager to keep the Venturers fed and well rested so you can take a break!**
+**Work happens around the clock, so expect to see a nice pile of gold waiting for your return!**
 
 ### Problems:
 - Build an extendible code base, leaving room for adding new features and characters
