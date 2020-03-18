@@ -17,6 +17,7 @@ const DEGREES_90 = 1.571; //radians
 
 // characters
 const UPGRADE_MULTIPLIER = 12; // cost and benefit multiplier
+const TIMER_MULTIPLIER = 3; // 
 
 // texture cache for the image map
 let TextureCache = PIXI.utils.TextureCache;

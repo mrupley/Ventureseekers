@@ -5,8 +5,17 @@ function character(index, amount = 0, manager = false) {
 	var hasManager = manager;
 	var cashRate = getCashRate(id, quantity);
 	var currentPieceImage;
+	var currentTimer = 0;
+	var percent = 0;
+	const timer = Math.pow(TIMER_MULTIPLIER, id) * 1000; //in ms, calculate once and keep in memory
+
+	// graphics
 	var managerTexture = PIXI.Texture.fromImage("img/managerbutton.png");
 	var managerTextureDisabled = PIXI.Texture.fromImage("img/managerbuttondisabled.png");
+	var loadingBarTexture = PIXI.Texture.fromImage("img/loading.png");
+	var loadingBarBackgroundTexture = PIXI.Texture.fromImage("img/loadingbg.png");
+	var loadingBarBackgroundButton = new PIXI.Sprite(loadingBarBackgroundTexture);
+	var loadingBarButton = new PIXI.Sprite(loadingBarTexture);
 	var managerButton = new PIXI.Sprite(hasManager ? managerTextureDisabled : managerTexture);
 	var quantityText = new PIXI.Text(quantity, { font: 'bold italic 20px Arvo', fill: '#3e1707', align: 'center', stroke: '#a4410e', strokeThickness: 7 });
 
@@ -16,7 +25,21 @@ function character(index, amount = 0, manager = false) {
 	currentPieceImage.on('mousedown', onIconClicked);
 	gameContainer.addChild(currentPieceImage);
 
-	managerButton.position.set(100 + 200, 100 * id + 180);
+	loadingBarBackgroundButton.position.set(100 + 170, 100 * id + 150);
+	loadingBarBackgroundButton.interactive = true;
+	loadingBarBackgroundButton.scale.x = 100;
+	loadingBarBackgroundButton.scale.y = 30;
+	loadingBarBackgroundButton.on('mousedown', onLoadingClicked);
+	gameContainer.addChild(loadingBarBackgroundButton);
+
+	loadingBarButton.position.set(100 + 170, 100 * id + 153);
+	loadingBarBackgroundButton.interactive = true;
+	loadingBarButton.scale.x = 0;
+	loadingBarButton.scale.y = 24;
+	//loadingBarBackgroundButton.on('mousedown', onLoadingClicked);
+	gameContainer.addChild(loadingBarButton);
+
+	managerButton.position.set(100 + 220, 100 * id + 180);
 	managerButton.interactive = true;
 	managerButton.on('mousedown', onManagerClicked);
 	gameContainer.addChild(managerButton);
@@ -45,6 +68,9 @@ function character(index, amount = 0, manager = false) {
 		},
 		cashRate: function() {
 			return cashRate;
+		},
+		timer: function() {
+			return calculateTimerPercentage();
 		}
 	};
 
@@ -63,5 +89,27 @@ function character(index, amount = 0, manager = false) {
 	function addQuantity(amount) {
 		quantity += amount;
 		cashRate = getCashRate(id, quantity);
+	}
+
+	function onLoadingClicked() {
+		if(currentTimer == 0 && quantity > 0) {
+			currentTimer = new Date().getTime() + timer;
+		}
+	}
+	function calculateTimerPercentage() {
+		if(hasManager) {
+			onLoadingClicked();
+		}
+		if(currentTimer > 0) {
+			percent = (timer - (currentTimer - new Date().getTime())) / timer;
+		}
+		if(percent >= 1){
+			currentTimer = 0;
+			percent = 0;
+			return true; //update cash
+		}
+
+		loadingBarButton.scale.x = 100 * percent;
+		return false; //do not update cash
 	}
 }

@@ -5,7 +5,7 @@ var Storage = (function() {
 	//localStorage.setItem('items', JSON.stringify(itemsArray));
 	//const data = JSON.parse(localStorage.getItem('items'));
 
-	//localStorage.clear();
+	localStorage.clear();
 
 	instance.loadCharacterFromStorage = function(item) {
 		var characterArray = JSON.parse(localStorage.getItem(item));

@@ -42,8 +42,13 @@ var GameModel = (function () {
 	}
 
 	instance.addCash = function() {
-		cash += cashRate;
+		//cash += cashRate;
 		cashText.text = "Cash: $" + roundCash(cash);
+		characters.forEach(character => {
+			if(character.timer()) {
+				cash += character.cashRate();
+			}
+		});
 	}
 
 	return instance;
