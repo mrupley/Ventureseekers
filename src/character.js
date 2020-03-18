@@ -1,13 +1,13 @@
 // objects used as unique store items
-function character(index, amount = 0, manager = false) {
+function character(index, amount = 0, manager = false, savedPercent = 0) {
 	var id = index;
+	const timer = Math.pow(TIMER_MULTIPLIER, id) * 1000; //in ms, calculate once and keep in memory
 	var quantity = amount;
 	var hasManager = manager;
 	var cashRate = getCashRate(id, quantity);
 	var currentPieceImage;
+	var percent = savedPercent;
 	var currentTimer = 0;
-	var percent = 0;
-	const timer = Math.pow(TIMER_MULTIPLIER, id) * 1000; //in ms, calculate once and keep in memory
 
 	// graphics
 	var managerTexture = PIXI.Texture.fromImage("img/managerbutton.png");
@@ -34,7 +34,7 @@ function character(index, amount = 0, manager = false) {
 
 	loadingBarButton.position.set(100 + 170, 100 * id + 153);
 	loadingBarBackgroundButton.interactive = true;
-	loadingBarButton.scale.x = 0;
+	loadingBarButton.scale.x = percent;
 	loadingBarButton.scale.y = 24;
 	//loadingBarBackgroundButton.on('mousedown', onLoadingClicked);
 	gameContainer.addChild(loadingBarButton);
@@ -64,16 +64,38 @@ function character(index, amount = 0, manager = false) {
 			return id;
 		},
 		toJSON: function() {
-			return {id: id, quantity: quantity, manager: hasManager };
+			return {id: id, quantity: quantity, manager: hasManager, percent: percent };
 		},
 		cashRate: function() {
 			return cashRate;
 		},
+		idleCash: function(idleTime) {
+			return getIdleCash(idleTime);
+		},
 		timer: function() {
 			return calculateTimerPercentage();
+		},
+		percent: function() {
+			return percent;
 		}
 	};
 
+	function getIdleCash(idleTime) {
+		var value = idleTime / timer;
+		if(percent > 0) {
+			percent += value % 1;
+			currentTimer = new Date().getTime() + (timer * (1 - percent));
+		}
+		if(hasManager) {
+			return Math.floor(value) * cashRate;
+		} 
+		else {
+			if(percent > 1) {
+				percent = 1;
+			}
+		}
+		return 0;
+	}
 	function onIconClicked() {
 		addQuantity(1);
 		quantityText.text = quantity;

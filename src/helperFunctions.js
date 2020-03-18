@@ -11,3 +11,16 @@ function getCashRate(index, quantity) {
 function roundCash(value) {
 	return Number(Math.round(value+'e2')+'e-2');
 }
+
+function getCharacterName(id) {
+	switch(id)
+	{
+		case venturer.WARRIOR:
+			return "WARRIOR";
+		case venturer.MAGE:
+			return "MAGE";
+		case venturer.ROGUE:
+			return "ROGUE";
+
+	}
+}

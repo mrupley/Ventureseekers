@@ -8,7 +8,11 @@ var GameModel = (function () {
 		characters = [];
 		Object.keys(venturer).forEach(this.loadCharacter);
 		this.calculateRate();
-		cash = Storage.loadCash(cashRate);
+		cash = Storage.loadCash();
+		var idleTime = Storage.loadTimeDifference();
+		characters.forEach(character => {
+			cash += character.idleCash(idleTime);
+		});
 	}
 	instance.save = function() {
 		Storage.saveToStorage();
@@ -38,11 +42,10 @@ var GameModel = (function () {
 
 	instance.toString = function() {
 		console.log("cash: " + cash);
-		characters.forEach(character => console.log("id: " + character.id() + " quantity: " + character.quantity() + " manager: " + character.manager()));
+		characters.forEach(character => console.log("id: " + character.id() + " quantity: " + character.quantity() + " manager: " + character.manager() + " percent: " + character.percent()));
 	}
 
 	instance.addCash = function() {
-		//cash += cashRate;
 		cashText.text = "Cash: $" + roundCash(cash);
 		characters.forEach(character => {
 			if(character.timer()) {
